@@ -19,10 +19,13 @@ class Character{
     public:
         glm::vec3 Position;
         glm::vec3 Front;
-        glm::vec3 Up;
         glm::vec3 Right;
         float MovementSpeed;
         Character(std::string filepath){
+            Position = glm::vec3(0.0f, 2.0f, 0.0f);
+            Front = glm::vec3(0.0f, 0.0f, -1.0f);
+            Right = glm::vec3(1.0f, 0.0f, 0.0f);
+            MovementSpeed = 2.5f;
             path = filepath;
             loadCharacter();
         }
@@ -36,6 +39,9 @@ class Character{
            
         }
         void characterMovement(Character_Movement direction, float deltaTime){
+                float velocity = MovementSpeed * deltaTime;
+                if(direction == C_FORWARD)
+                    Position += Front * velocity;
 
         }
 };

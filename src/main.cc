@@ -77,6 +77,8 @@ int main()
 
     Shader thisShader("./shaders/shader.vs", "./shaders/shader.fs");
 
+    Shader ballShader("./shaders/ball.vs", "./shaders/ball.fs");
+
 
   
 
@@ -173,14 +175,22 @@ int main()
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
         thisShader.setMat4("model", model);
         thisShader.setMat4("view", view);
-
-       
         thisShader.setMat4("projection", projection);
 
 
         //draw container
         map.Draw(thisShader);
-        ball.drawCharacter(thisShader);
+
+        ballShader.use(); 
+        ballShader.setVec3("lightPos", LIGHTPOS);
+        ballShader.setVec3("viewPos", camera.Position);
+        glm::mat4 model_ball = glm::mat4(1.0f);
+        model_ball = glm::translate(model_ball, ball.Position);
+        model_ball = glm::scale(model_ball, glm::vec3(0.3f, 0.3f, 0.3f));
+        ballShader.setMat4("model", model_ball); 
+        ballShader.setMat4("view", view);
+        ballShader.setMat4("projection", projection);
+        ball.drawCharacter(ballShader);
 
         //modelmatrix for light source
         lightShader.use();
