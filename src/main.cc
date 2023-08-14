@@ -112,7 +112,7 @@ int main()
     thisShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f); 
     thisShader.setFloat("material.shininess", 32.0f);
 
-
+    ballShader = thisShader;
     lightShader.use(); 
     lightShader.setVec3("lightcolor", LIGHTCOLOR);
 
@@ -176,8 +176,6 @@ int main()
         thisShader.setMat4("model", model);
         thisShader.setMat4("view", view);
         thisShader.setMat4("projection", projection);
-
-
         //draw container
         map.Draw(thisShader);
 
@@ -263,6 +261,12 @@ void processCharacterMovement(GLFWwindow* window, Character* character)
 {
     if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
         character->characterMovement(C_FORWARD, deltaTime);
+    if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+        character->characterMovement(C_BACKWARD, deltaTime);
+    if(glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+        character->characterMovement(C_RIGHT, deltaTime);
+    if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+        character->characterMovement(C_LEFT, deltaTime);
 
 }
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)

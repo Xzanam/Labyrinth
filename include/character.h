@@ -42,6 +42,12 @@ class Character{
                 float velocity = MovementSpeed * deltaTime;
                 if(direction == C_FORWARD)
                     Position += Front * velocity;
+                if(direction == C_BACKWARD)
+                    Position -= Front * velocity; 
+                if(direction == C_RIGHT)
+                    Position += Right * velocity; 
+                if(direction == C_LEFT)
+                    Position -= Right * velocity;
 
         }
 };
