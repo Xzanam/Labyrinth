@@ -1,5 +1,5 @@
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef MODELS_H
+#define MODELS_H
 
 #include <glad/glad.h> 
 
