@@ -21,12 +21,6 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 unsigned int loadCubemap(vector<std::string> faces);
 
 
-void moveDiscATB(Model *disc, glm::mat4 *model, Shader &shader){
-   
-        *model = glm::translate(*model, glm::vec3(0.0f, 0.5f, 0.0f));
-        shader.setMat4("model", *model);
-        disc->Draw(shader);
-}
 
 
 
@@ -162,14 +156,10 @@ int main()
     
  
 
-    Model map("../models/disc/three_towers.obj");
+    Model map("../models/maze1/maze1.obj");
     Model lightsource("../models/container/container.obj");
     Character ball("../models/ball/ball.obj");
 
-
-    Model disc1("../models/disc/disc1.obj");
-    Model disc2("../models/disc/disc2.obj");
-    Model disc3("../models/disc/disc3.obj");
 
     glm::vec3 LIGHTCOLOR(1.0f); 
   
@@ -270,12 +260,8 @@ int main()
         //draw container
         map.Draw(thisShader);
 
-        disc1.Draw(thisShader);
-        disc2.Draw(thisShader);
-        disc3.Draw(thisShader);
-        
-        if(glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
-            moveDiscATB(&disc3, &model, thisShader);
+       
+
 
         ballShader.use(); 
         ballShader.setVec3("lightPos", LIGHTPOS);
