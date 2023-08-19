@@ -13,7 +13,7 @@ To compile and run the project:
     - GLad (https://glad.dav1d.de/)
     - GLM (https://github.com/g-truc/glm)
     - Assimp (https://github.com/assimp/assimp)
-3. Clone this repository using `git clone https://github.com/Xzanam/OpenGL-Graphics-Project.git`.
+3. Clone this repository using `git clone https://github.com/Xzanam/TheGame.git`.
 4. Navigate to the project directory: `cd TheGame/src`.
 5. Compile the code using makefile
     ```make target=main```
@@ -22,7 +22,7 @@ To compile and run the project:
 ## References
   De Vries, J. (2021). Learn OpenGL: Graphics Programming in C++. [Online Book]. https://learnopengl.com/
 
-#Snapshots
+## Snapshots
 ![snapshot1](./snapshots/1.png)
 ![snapshot2](./snapshots/2.png)
 ![snapshot3](./snapshots/3.png)
