@@ -25,6 +25,7 @@ unsigned int TextureFromFile(const char *path, const string &directory, bool gam
 class Model 
 {
 public:
+    unsigned int numVertices;
     // model data 
     vector<Texture> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
     vector<Mesh>    meshes;
@@ -85,6 +86,7 @@ private:
 
     Mesh processMesh(aiMesh *mesh, const aiScene *scene)
     {
+        numVertices = mesh -> mNumVertices;
         // data to fill
         vector<Vertex> vertices;
         vector<unsigned int> indices;

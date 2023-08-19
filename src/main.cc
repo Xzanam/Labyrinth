@@ -6,6 +6,7 @@
 #include<assimp/Importer.hpp>
 #include<assimp/scene.h>
 #include<assimp/postprocess.h>
+
 #include <character.h>
 
 
@@ -19,6 +20,8 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 unsigned int loadCubemap(vector<std::string> faces);
+
+bool detectCollision(Character* ball, Model *map,glm::mat4 model);
 
 
 
@@ -51,7 +54,7 @@ int main()
     //intializing GLAD before calling any OpenGL functions
     if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        std::cout<< "Failed to intialize GLAD"<<std::endl; 
+        std::cout<< "Failed to intialize GLAD"<<std::endl;  
         return -1;  
     }
 
@@ -64,14 +67,14 @@ int main()
 
     glEnable(GL_DEPTH_TEST);
 
-        // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
+    // tell stb_image.h to flip loaded texture's on the y-axis (before loading model).
    //stbi_set_flip_vertically_on_load(true);
  float vertices[] = {
         // positions          
         -1.0f,  1.0f, -1.0f,
         -1.0f, -1.0f, -1.0f,
          1.0f, -1.0f, -1.0f,
-         1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,    
          1.0f,  1.0f, -1.0f,
         -1.0f,  1.0f, -1.0f,
 
@@ -156,12 +159,13 @@ int main()
     
  
 
-    Model map("../models/maze1/maze1.obj");
+    Model map("../models/pipes/pipes.obj");
     Model lightsource("../models/container/container.obj");
-    Character ball("../models/ball/ball.obj");
+    Character ball("../models/ball/ball1.obj");
 
 
     glm::vec3 LIGHTCOLOR(1.0f); 
+    glm::vec3 LIGHTPOS(3.0f,3.0f,3.0f);
   
 
 
@@ -181,8 +185,8 @@ int main()
     thisShader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
     thisShader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
     thisShader.setInt("material.diffuse", 0);
-    thisShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f); 
-    thisShader.setFloat("material.shininess", 32.0f);
+    thisShader.setVec3("material.specular", 0.2f, 0.2f, 0.2f); 
+    thisShader.setFloat("material.shininess", 16.0f);
 
     ballShader = thisShader;
     lightShader.use(); 
@@ -191,7 +195,7 @@ int main()
   
 
 
-
+    float angle; 
     
     //THE RENDER LOOP
     while (!glfwWindowShouldClose(window))
@@ -220,11 +224,7 @@ int main()
     
 
 
-
-
-
-
-        glm::vec3 LIGHTPOS(5 * (float) sin(glfwGetTime()), 2.0f, 5* (float) cos(glfwGetTime()));
+        
         // view = camera.GetViewMatrix();
         // int viewLoc = glGetUniformLocation(ourShader.ID, "view");
         // glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
@@ -239,11 +239,6 @@ int main()
         glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f); 
     
        
-
-
-
-       
-
     
         thisShader.use();
         thisShader.setVec3("lightPos", LIGHTPOS);      
@@ -252,14 +247,17 @@ int main()
 
         // render the loaded model
         glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.5f, 0.0f)); // translate it down so it's at the center of the scene
-        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	// it's a bit too big for our scene, so scale it down
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+        model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));	// it's a bit too big for our scene, so scale it down
         thisShader.setMat4("model", model);
         thisShader.setMat4("view", view);
         thisShader.setMat4("projection", projection);
         //draw container
         map.Draw(thisShader);
 
+       
+        
+ 
        
 
 
@@ -268,7 +266,8 @@ int main()
         ballShader.setVec3("viewPos", camera.Position);
         glm::mat4 model_ball = glm::mat4(1.0f);
         model_ball = glm::translate(model_ball, ball.Position);
-        model_ball = glm::scale(model_ball, glm::vec3(0.3f, 0.3f, 0.3f));
+        model_ball = glm::scale(model_ball, glm::vec3(0.2f, 0.2f, 0.2f));
+        model_ball = glm::rotate(model_ball,ball.rotCounter * glm::radians(ball.rotAngle), ball.rotAxis);
         ballShader.setMat4("model", model_ball); 
         ballShader.setMat4("view", view);
         ballShader.setMat4("projection", projection);
@@ -287,6 +286,9 @@ int main()
         // lightShader.use();
         // lightsource.Draw(thisShader);
 
+        camera.ballPos = ball.Position;
+        detectCollision(&ball, &map,model);
+
                 // draw skybox as last
         glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
         skyboxShader.use();
@@ -301,7 +303,7 @@ int main()
         glBindVertexArray(0);
         glDepthFunc(GL_LESS); // set depth function back to default
 
-
+    
     
 
  
@@ -324,6 +326,31 @@ int main()
     glfwTerminate();  //clear them all mess and free the resources
     
     return 0; 
+}
+
+bool detectCollision(Character* ball, Model *map, glm::mat4 model)
+{
+  
+    for(unsigned int i = 0; i < map->numVertices; i++)
+    {
+        glm::vec4 temp = model * glm::vec4(map->meshes[i].vertices[i].Position, 1.0f);
+       float distance = glm::length(glm::vec3(temp.x, temp.y, temp.z)-ball->Position );
+       std::cout<<distance<<std::endl;
+       if(abs(distance) <=6.66409f)
+       {
+            std::cout<<"Collision Detected"<<std::endl;
+            return true;
+       }
+     
+        else
+          {
+            std::cout<<"No Collision"<<std::endl;
+            return false;
+          }
+            
+    }
+    return false;
+
 }
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){
     glViewport(0, 0, width, height);
@@ -359,15 +386,29 @@ void processCameraMovement(GLFWwindow* window)
 void processCharacterMovement(GLFWwindow* window, Character* character)
 {
     if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    {
         character->characterMovement(C_FORWARD, deltaTime);
+        camera.ProcessKeyboard(FORWARD, deltaTime);
+    }
     if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    {
         character->characterMovement(C_BACKWARD, deltaTime);
+        camera.ProcessKeyboard(BACKWARD, deltaTime);
+    }
     if(glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+       {
         character->characterMovement(C_RIGHT, deltaTime);
+        camera.ProcessKeyboard(RIGHT, deltaTime);
+    }
     if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+        {
         character->characterMovement(C_LEFT, deltaTime);
+        camera.ProcessKeyboard(LEFT, deltaTime);
+    }
 
 }
+
+
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 {
 
