@@ -90,7 +90,7 @@ class Character{
                     rotAxis = glm::vec3(0.0f,0.0f,1.0f);
                     Position -= Right * velocity;
                       rotAngle = abs(rotAngle);
-                }
+                } 
                 Position.y = 0.2f;
 
         }
@@ -130,7 +130,7 @@ class Character{
         
         return true;
     }
-    void collisionDetection(Model *scene, glm::vec3 * cameraPos)
+    void collisionDetection(Model *scene, glm::vec3* cameraPos)
     {
     // bool insidePlane; 
     // bool insideAnyVerts;
@@ -216,10 +216,10 @@ class Character{
         
         if(outsideAllVerts &&outsideAllEdges)
         {
-           // std::cout<<"NoCollisionDetected"<<std::endl;
+            //std::cout<<"NoCollisionDetected"<<std::endl;
             continue;
         }
-        //std::cout<<"Collisiosn Detected"<<std::endl;
+       // std::cout<<"Collisiosn Detected"<<std::endl;
 
         shiftDelta += pN * (collSphereRadius - ppd);
         numCollision++; 

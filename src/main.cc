@@ -309,7 +309,7 @@ int main()
  
      
         //mouse movement 
-        glfwSetCursorPosCallback(window, mouse_callback);
+       // glfwSetCursorPosCallback(window, mouse_callback);
       
 
 
