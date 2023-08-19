@@ -30,7 +30,7 @@ class Character{
         float rotAngle, rotCounter;
         float lastWalkSpeed;
         Character(std::string filepath){
-            Position = glm::vec3(0.0f, 0.6f, 0.0f);
+            Position = glm::vec3(0.0f, 0.2f, 0.0f);
             Front = glm::vec3(0.0f, 0.0f, -1.0f);
             Right = glm::vec3(1.0f, 0.0f, 0.0f);
             MovementSpeed = 2.5f;
@@ -90,7 +90,8 @@ class Character{
                     rotAxis = glm::vec3(0.0f,0.0f,1.0f);
                     Position -= Right * velocity;
                       rotAngle = abs(rotAngle);
-                }       
+                }
+                Position.y = 0.2f;
 
         }
 
@@ -129,7 +130,7 @@ class Character{
         
         return true;
     }
-    void collisionDetection(Model *scene)
+    void collisionDetection(Model *scene, glm::vec3 * cameraPos)
     {
     // bool insidePlane; 
     // bool insideAnyVerts;
@@ -215,10 +216,10 @@ class Character{
         
         if(outsideAllVerts &&outsideAllEdges)
         {
-            std::cout<<"NoCollisionDetected"<<std::endl;
+           // std::cout<<"NoCollisionDetected"<<std::endl;
             continue;
         }
-        std::cout<<"Collisiosn Detected"<<std::endl;
+        //std::cout<<"Collisiosn Detected"<<std::endl;
 
         shiftDelta += pN * (collSphereRadius - ppd);
         numCollision++; 
@@ -232,6 +233,7 @@ class Character{
                 shiftDelta  *= lastWalkSpeed * 0.1f;
             }
             Position = Position + shiftDelta;
+            *cameraPos = *cameraPos + shiftDelta;
 
 
         }

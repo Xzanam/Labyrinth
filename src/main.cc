@@ -304,7 +304,7 @@ int main()
 
 
     
-        ball.collisionDetection(&map);
+        ball.collisionDetection(&map, &camera.Position);
 
  
      
@@ -388,32 +388,32 @@ void processCharacterMovement(GLFWwindow* window, Character* character)
     if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
         character->characterMovement(C_FORWARD, deltaTime);
-        //camera.ProcessKeyboard(FORWARD, deltaTime);
+        camera.ProcessKeyboard(FORWARD, deltaTime);
     }
     if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
         character->characterMovement(C_BACKWARD, deltaTime);
-        //camera.ProcessKeyboard(BACKWARD, deltaTime);
+        camera.ProcessKeyboard(BACKWARD, deltaTime);
     }
     if(glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
        {
         character->characterMovement(C_RIGHT, deltaTime);
-        //camera.ProcessKeyboard(RIGHT, deltaTime);
+        camera.ProcessKeyboard(RIGHT, deltaTime);
     }
     if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
         {
         character->characterMovement(C_LEFT, deltaTime);
-        //camera.ProcessKeyboard(LEFT, deltaTime);
+        camera.ProcessKeyboard(LEFT, deltaTime);
     }
       if(glfwGetKey(window, GLFW_KEY_SLASH) == GLFW_PRESS)
     {
         character->characterMovement(C_UP, deltaTime);
-        //camera.ProcessKeyboard(UP, deltaTime);
+        camera.ProcessKeyboard(UP, deltaTime);
     }
       if(glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS)
     {
         character->characterMovement(C_DOWN, deltaTime);
-        //camera.ProcessKeyboard(DOWN, deltaTime);
+        camera.ProcessKeyboard(DOWN, deltaTime);
     }
 
 }
