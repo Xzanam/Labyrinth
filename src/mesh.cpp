@@ -1,8 +1,11 @@
 #include <mesh.h>
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures){
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, std::vector<glm::vec3> positions, std::vector<glm::vec3>normals){
     this->vertices = vertices; 
     this->indices = indices; 
     this->textures = textures; 
+    this->position = positions;
+    this->normals = normals;
+
 
     setupMesh();
 }

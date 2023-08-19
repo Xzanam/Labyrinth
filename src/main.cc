@@ -159,7 +159,7 @@ int main()
     
  
 
-    Model map("../models/pipes/pipes.obj");
+    Model map("../models/map/map.obj");
     Model lightsource("../models/container/container.obj");
     Character ball("../models/ball/ball1.obj");
 
@@ -248,7 +248,7 @@ int main()
         // render the loaded model
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-        model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));	// it's a bit too big for our scene, so scale it down
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
         thisShader.setMat4("model", model);
         thisShader.setMat4("view", view);
         thisShader.setMat4("projection", projection);
@@ -258,14 +258,14 @@ int main()
        
         
  
-       
+
 
         ballShader.use(); 
         ballShader.setVec3("lightPos", LIGHTPOS);
         ballShader.setVec3("viewPos", camera.Position);
         glm::mat4 model_ball = glm::mat4(1.0f);
         model_ball = glm::translate(model_ball, ball.Position);
-        model_ball = glm::scale(model_ball, glm::vec3(0.2f, 0.2f, 0.2f));
+        model_ball = glm::scale(model_ball, glm::vec3(0.3f, 0.3f, 0.3f));
         model_ball = glm::rotate(model_ball,ball.rotCounter * glm::radians(ball.rotAngle), ball.rotAxis);
         ballShader.setMat4("model", model_ball); 
         ballShader.setMat4("view", view);
@@ -388,22 +388,32 @@ void processCharacterMovement(GLFWwindow* window, Character* character)
     if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {
         character->characterMovement(C_FORWARD, deltaTime);
-        camera.ProcessKeyboard(FORWARD, deltaTime);
+        //camera.ProcessKeyboard(FORWARD, deltaTime);
     }
     if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
     {
         character->characterMovement(C_BACKWARD, deltaTime);
-        camera.ProcessKeyboard(BACKWARD, deltaTime);
+        //camera.ProcessKeyboard(BACKWARD, deltaTime);
     }
     if(glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
        {
         character->characterMovement(C_RIGHT, deltaTime);
-        camera.ProcessKeyboard(RIGHT, deltaTime);
+        //camera.ProcessKeyboard(RIGHT, deltaTime);
     }
     if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
         {
         character->characterMovement(C_LEFT, deltaTime);
-        camera.ProcessKeyboard(LEFT, deltaTime);
+        //camera.ProcessKeyboard(LEFT, deltaTime);
+    }
+      if(glfwGetKey(window, GLFW_KEY_SLASH) == GLFW_PRESS)
+    {
+        character->characterMovement(C_UP, deltaTime);
+        //camera.ProcessKeyboard(UP, deltaTime);
+    }
+      if(glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS)
+    {
+        character->characterMovement(C_DOWN, deltaTime);
+        //camera.ProcessKeyboard(DOWN, deltaTime);
     }
 
 }

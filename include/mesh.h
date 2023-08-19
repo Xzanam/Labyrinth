@@ -30,8 +30,10 @@ class Mesh{
         std::vector<Vertex> vertices; 
         std::vector<unsigned int> indices; 
         std::vector<Texture> textures;
+        std::vector<glm::vec3>position; 
+        std::vector<glm::vec3>normals; 
 
-        Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures); 
+        Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, std::vector<glm::vec3>position, std::vector<glm::vec3>normals); 
         void draw(Shader &shader);
 
     private: 
