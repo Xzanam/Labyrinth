@@ -1,4 +1,4 @@
-#The Labyrinth
+##The Labyrinth
 "The Labyrinth" seeks to provide players with an intriguing and captivating experience
 set within a three-dimensional virtual world. The game’s primary objective revolves
 around navigating complex mazes, pushing players to employ their problem-solving and
