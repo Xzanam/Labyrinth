@@ -260,7 +260,6 @@ int main()
  
        
 
-
         ballShader.use(); 
         ballShader.setVec3("lightPos", LIGHTPOS);
         ballShader.setVec3("viewPos", camera.Position);
@@ -303,8 +302,9 @@ int main()
         glBindVertexArray(0);
         glDepthFunc(GL_LESS); // set depth function back to default
 
+
     
-    
+        ball.collisionDetection(&map);
 
  
      

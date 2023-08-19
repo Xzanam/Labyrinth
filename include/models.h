@@ -29,6 +29,8 @@ public:
     // model data 
     vector<Texture> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
     vector<Mesh>    meshes;
+   
+
     string directory;
     bool gammaCorrection;
 
@@ -36,6 +38,7 @@ public:
     Model(string const &path, bool gamma = false) : gammaCorrection(gamma)
     {
         loadModel(path);
+      
     }
 
     // draws the model, and thus all its meshes
@@ -89,6 +92,8 @@ private:
         numVertices = mesh -> mNumVertices;
         // data to fill
         vector<Vertex> vertices;
+        vector<glm::vec3>normals; 
+        vector<glm::vec3>poisition;
         vector<unsigned int> indices;
         vector<Texture> textures;
 
@@ -102,6 +107,7 @@ private:
             vector.y = mesh->mVertices[i].y;
             vector.z = mesh->mVertices[i].z;
             vertex.Position = vector;
+            poisition.push_back(vector);
             // normals
             if (mesh->HasNormals())
             {
@@ -109,6 +115,7 @@ private:
                 vector.y = mesh->mNormals[i].y;
                 vector.z = mesh->mNormals[i].z;
                 vertex.Normal = vector;
+                normals.push_back(vector);
             }
             // texture coordinates
             if(mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
@@ -166,7 +173,7 @@ private:
         textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
         
         // return a mesh object created from the extracted mesh data
-        return Mesh(vertices, indices, textures);
+        return Mesh(vertices, indices, textures, poisition, normals);
     }
 
     // checks all material textures of a given type and loads the textures if they're not loaded yet.
