@@ -39,7 +39,7 @@ int main()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     //creating a window object
-    GLFWwindow* window = glfwCreateWindow(W_WIDTH, W_HEIGHT, "Lighting", NULL, NULL); 
+    GLFWwindow* window = glfwCreateWindow(W_WIDTH, W_HEIGHT, "Labyrinth", NULL, NULL); 
     if(window == NULL)
     {
         std::cout <<"error creating glfw window"<<std::endl;
@@ -282,12 +282,12 @@ int main()
         lightShader.setMat4("view", view);
         lightShader.setMat4("projection", projection);
         
-        lightsource.Draw(lightShader);
+        //lightsource.Draw(lightShader);
         // lightShader.use();
         // lightsource.Draw(thisShader);
 
         camera.ballPos = ball.Position;
-        detectCollision(&ball, &map,model);
+        //detectCollision(&ball, &map,model);
 
                 // draw skybox as last
         glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
