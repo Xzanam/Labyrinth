@@ -13,7 +13,7 @@
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow* window);
+void processInput(GLFWwindow* window, Character* character);
 void processCameraMovement(GLFWwindow* window);
 void processCharacterMovement(GLFWwindow* window, Character* character);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -21,7 +21,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 unsigned int loadCubemap(vector<std::string> faces);
 
-bool detectCollision(Character* ball, Model *map,glm::mat4 model);
+
 
 
 
@@ -193,6 +193,7 @@ int main()
     lightShader.setVec3("lightcolor", LIGHTCOLOR);
 
   
+  bool flag = 1; 
 
 
     float angle; 
@@ -206,10 +207,13 @@ int main()
         float currentFrame = static_cast<float>(glfwGetTime());
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
-
+        processInput(window, &ball); 
         //check for key presses or basically input
-        processInput(window); 
-        processCharacterMovement(window, &ball);
+
+        
+
+     
+    
 
         //rendering commands here
         glClearColor(0.0f, 0.4f, 0.2f, 1.0f);
@@ -239,7 +243,8 @@ int main()
         glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f); 
     
        
-    
+               
+       
         thisShader.use();
         thisShader.setVec3("lightPos", LIGHTPOS);      
         thisShader.setVec3("viewPos", camera.Position);
@@ -307,9 +312,16 @@ int main()
         ball.collisionDetection(&map, &camera.Position);
 
  
-     
+        
         //mouse movement 
        // glfwSetCursorPosCallback(window, mouse_callback);
+
+       if(ball.reachedFinish())
+       {
+            std::cout<<"congatulations! You've solved the maze"<<std::endl;
+            break;
+
+       }
       
 
 
@@ -328,36 +340,15 @@ int main()
     return 0; 
 }
 
-bool detectCollision(Character* ball, Model *map, glm::mat4 model)
-{
-  
-    for(unsigned int i = 0; i < map->numVertices; i++)
-    {
-        glm::vec4 temp = model * glm::vec4(map->meshes[i].vertices[i].Position, 1.0f);
-       float distance = glm::length(glm::vec3(temp.x, temp.y, temp.z)-ball->Position );
-       std::cout<<distance<<std::endl;
-       if(abs(distance) <=6.66409f)
-       {
-            std::cout<<"Collision Detected"<<std::endl;
-            return true;
-       }
-     
-        else
-          {
-            std::cout<<"No Collision"<<std::endl;
-            return false;
-          }
-            
-    }
-    return false;
 
-}
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){
     glViewport(0, 0, width, height);
 
 }
-void processInput(GLFWwindow* window){
+void processInput(GLFWwindow* window, Character* character){
    processCameraMovement(window);
+   processCharacterMovement(window, character);
 }
 
 void processCameraMovement(GLFWwindow* window)

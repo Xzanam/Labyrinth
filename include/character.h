@@ -130,6 +130,13 @@ class Character{
         
         return true;
     }
+
+
+        bool reachedFinish(){
+            if((Position.x < 0.622718) && (Position.x > -1.1183) && (Position.z < - 16.800) )
+                return true;
+            return false; 
+        }
     void collisionDetection(Model *scene, glm::vec3* cameraPos)
     {
     // bool insidePlane; 
@@ -149,7 +156,7 @@ class Character{
     // std::cout<<verts1->x<<verts1->y<<verts1->z<<std::endl;
      
 
-    for(auto &sceneobject : scene->meshes)
+    for(const auto &sceneobject : scene->meshes)
     {
     const auto &mesh = scene->meshes; 
     auto verts = sceneobject.position;
@@ -230,10 +237,11 @@ class Character{
             if(glm::length(shiftDelta) > lastWalkSpeed)
             {
                 shiftDelta   = glm::normalize(shiftDelta);
-                shiftDelta  *= lastWalkSpeed * 0.1f;
+                    shiftDelta  *= lastWalkSpeed * 0.001f;
+               
             }
             Position = Position + shiftDelta;
-            *cameraPos = *cameraPos + shiftDelta;
+                *cameraPos = *cameraPos + shiftDelta;
 
 
         }
