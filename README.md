@@ -1,9 +1,6 @@
 ## The Labyrinth
 
-"The Labyrinth" seeks to provide players with an intriguing and captivating experience
-set within a three-dimensional virtual world. The game’s primary objective revolves
-around navigating complex mazes, pushing players to employ their problem-solving and
-critical thinking skills in order to successfully reach the exit.
+A simple maze solving game
 
 ## How to Compile and Run
 
