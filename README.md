@@ -1,6 +1,6 @@
 ## The Labyrinth
 
-A simple maze solving game
+A simple maze solving game programmed using C/C++ and OpenGL
 
 ## How to Compile and Run
 
