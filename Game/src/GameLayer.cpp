@@ -1,5 +1,8 @@
 #include "GameLayer.h"
+
+#include "Events/KeyPressedEvent.h"
 #include "glad/gl.h"
+#include <iostream>
 
 
 GameLayer::GameLayer() {
@@ -19,5 +22,10 @@ void GameLayer::OnUpdate(float deltaTime) {
 
 
 void GameLayer::OnEvent(Core::Event& event) {
-
+    Core::EventDispatcher dispatcher(event);
+    dispatcher.Dispatch<Core::KeyPressedEvent>([this](Core::KeyPressedEvent &e) {
+        // std::cout << "Key Pressed : "  << e.GetKeyCode() << std::endl;
+            printf("Key Pressed : %c \n" , e.GetKeyCode());
+        return true;
+    });
 }

@@ -9,6 +9,8 @@
 #include <iostream>
 #include <bits/ostream.tcc>
 
+#include "Events/KeyPressedEvent.h"
+
 
 namespace Core {
     Window::Window(const WindowSpecification& specification) :
@@ -32,6 +34,8 @@ namespace Core {
             assert(false);
         }
         glfwMakeContextCurrent(m_Handle);
+        glfwSetWindowUserPointer(m_Handle,this);
+        SetUpCallbacks();
         gladLoadGL(glfwGetProcAddress);
         glfwSwapInterval(m_WindowSpec.VSync ? 1 : 0);
     }
@@ -55,6 +59,32 @@ namespace Core {
 
     bool Window::ShouldClose() const{
         return glfwWindowShouldClose(m_Handle) != 0;
+    }
+
+    void Window::SetUpCallbacks() {
+
+        glfwSetKeyCallback(m_Handle, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+            auto* win = static_cast<Window*>(glfwGetWindowUserPointer(window));
+            if (!win->m_EventCallback) { return;}
+            switch (action) {
+                case GLFW_PRESS: {
+                    KeyPressedEvent event(key, false);
+                    win->m_EventCallback(event);
+                    break;
+                }
+                case GLFW_REPEAT : {
+                    KeyPressedEvent event(key, true);
+                    win->m_EventCallback(event);
+                    break;
+                }
+                case GLFW_RELEASE: {
+                    KeyPressedEvent event(key, false);
+                    //to be implemented KeyReleaseEvent();
+                    break;
+                }
+            }
+        });
+
     }
 
 

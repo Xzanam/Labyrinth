@@ -9,6 +9,8 @@
 #include <glm/glm.hpp>
 
 #include <string>
+#include <functional>
+#include "Events/Event.h"
 
 namespace Core {
     struct WindowSpecification {
@@ -24,17 +26,26 @@ namespace Core {
         ~Window();
 
         void Create();
+        void SetUpCallbacks();
         void Destroy();
         void Update();
         glm::vec2  GetFramebufferSize();
         bool ShouldClose() const;
 
+
         GLFWwindow* GetHandle() const {return m_Handle;}
+
+        using EventCallBackFn = std::function<void(Event&)>;
+        void SetEventCallback(const EventCallBackFn& callback){m_EventCallback = callback;}
 
     private:
         WindowSpecification m_WindowSpec;
         GLFWwindow* m_Handle;
+        EventCallBackFn m_EventCallback;
     };
+
+
+
 }
 
 #endif //WINDOW_H

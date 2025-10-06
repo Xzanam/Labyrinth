@@ -33,6 +33,8 @@ namespace Core {
             m_LayerStack.push_back(std::make_unique<TLayer>());
         }
 
+        void OnEvent(Event& event);
+
         glm::vec2 GetFramebufferSize() const;
         static Application& Get();
         static float GetTime();

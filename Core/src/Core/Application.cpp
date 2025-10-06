@@ -28,6 +28,7 @@ namespace Core {
 
         m_Window = std::make_shared<Window>(m_Specification.WindowSpec);
         m_Window->Create();
+        m_Window ->SetEventCallback([this](Event& e) { OnEvent(e);});
 
         Renderer::Utils::InitOpenGLDebugMessageCallback();
     }
@@ -62,6 +63,12 @@ namespace Core {
             m_Window->Update();
         }
 
+    }
+
+    void Application::OnEvent(Event& event) {
+        for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it) {
+            (*it)->OnEvent(event);
+        }
     }
 
     void Application::Stop() {

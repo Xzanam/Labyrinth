@@ -3,6 +3,7 @@ set(INCLUDE_DIR include)
 
 list(APPEND INCLUDE_DIR include/Core)
 list(APPEND INCLUDE_DIR include/Core/Renderer)
+list(APPEND INCLUDE_DIR include/Core/Events)
 
 file(GLOB_RECURSE CORE_SOURCES ${SRC_DIR}/*.cpp )
 
