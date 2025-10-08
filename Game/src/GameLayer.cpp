@@ -4,6 +4,7 @@
 #include "glad/gl.h"
 #include <iostream>
 
+#include "Application.h"
 #include "MouseEvents.h"
 
 
@@ -27,7 +28,11 @@ void GameLayer::OnEvent(Core::Event& event) {
     Core::EventDispatcher dispatcher(event);
     dispatcher.Dispatch<Core::KeyPressedEvent>([this](Core::KeyPressedEvent &e) {
         // std::cout << "Key Pressed : "  << e.GetKeyCode() << std::endl;
-            printf("Key Pressed : %c \n" , e.GetKeyCode());
+            switch (e.GetKeyCode()) {
+                case Core::Keys::KEY_ESCAPE  : {
+                    Core::Application::Get().Stop();
+                }
+            }
         return true;
     });
 

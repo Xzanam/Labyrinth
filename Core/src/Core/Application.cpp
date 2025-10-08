@@ -43,6 +43,9 @@ namespace Core {
     void Application::Run() {
         m_Running = true;
         float lastTime = GetTime() ;
+        if (GLAD_GL_VERSION_4_5 || GLAD_GL_ARB_direct_state_access) {
+            std::cout << glGetString(GL_VERSION) << "\n DSA supported" <<  std::endl;
+        }
         while (m_Running) {
             glfwPollEvents();
             if (m_Window->ShouldClose()) {

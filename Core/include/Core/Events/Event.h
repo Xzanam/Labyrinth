@@ -6,6 +6,7 @@
 #define EVENT_H
 #include <string>
 #include <typeinfo>
+
 namespace Core {
         enum class EventType {
                 None = 0,

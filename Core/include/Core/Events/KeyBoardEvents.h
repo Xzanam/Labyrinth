@@ -5,9 +5,14 @@
 #ifndef KEYBOARDEVENTS_H
 #define KEYBOARDEVENTS_H
 
+#include <GLFW/glfw3.h>
 #include "Event.h"
 
+
 namespace Core {
+    enum Keys {
+        KEY_ESCAPE  = GLFW_KEY_ESCAPE,
+    };
 
     class KeyPressedEvent : public EventBase<KeyPressedEvent,EventType::KeyPressed,EventCategoryKeyboard || EventCategoryInput> {
     public:
