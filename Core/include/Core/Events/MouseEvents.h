@@ -2,8 +2,8 @@
 // Created by Janam Shrestha on 10/7/25.
 //
 
-#ifndef MOUSEMOVEDEVENT_H
-#define MOUSEMOVEDEVENT_H
+#ifndef MOUSEEVENTS_H
+#define MOUSEEVENTS_H
 #include "Event.h"
 
 namespace Core {
@@ -19,4 +19,4 @@ namespace Core {
 
 };
 
-#endif //MOUSEMOVEDEVENT_H
+#endif //MOUSEEVENTS_H

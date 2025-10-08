@@ -28,7 +28,7 @@ namespace Core {
 
         m_Window = std::make_shared<Window>(m_Specification.WindowSpec);
         m_Window->Create();
-        m_Window ->SetEventCallback([this](Event& e) { OnEvent(e);});
+        m_Window->SetEventCallback([this](Event& e) { OnEvent(e);});
 
         Renderer::Utils::InitOpenGLDebugMessageCallback();
     }
@@ -65,9 +65,11 @@ namespace Core {
 
     }
 
+    //This is being called from the constructor : m_Window -> SetEventCallback();
     void Application::OnEvent(Event& event) {
         for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it) {
             (*it)->OnEvent(event);
+            if (event.Handled) break; // if the event has been handled in one of the layers do not pass it to other layers.
         }
     }
 
@@ -87,9 +89,6 @@ namespace Core {
     float Application::GetTime() {
         return static_cast<float>(glfwGetTime());
     }
-
-
-
 }
 
 

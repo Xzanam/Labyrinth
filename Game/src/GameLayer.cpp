@@ -1,8 +1,10 @@
 #include "GameLayer.h"
 
-#include "Events/KeyPressedEvent.h"
+#include "Events/KeyBoardEvents.h"
 #include "glad/gl.h"
 #include <iostream>
+
+#include "MouseEvents.h"
 
 
 GameLayer::GameLayer() {
@@ -26,6 +28,11 @@ void GameLayer::OnEvent(Core::Event& event) {
     dispatcher.Dispatch<Core::KeyPressedEvent>([this](Core::KeyPressedEvent &e) {
         // std::cout << "Key Pressed : "  << e.GetKeyCode() << std::endl;
             printf("Key Pressed : %c \n" , e.GetKeyCode());
+        return true;
+    });
+
+    dispatcher.Dispatch<Core::MouseMovedEvent>([this](Core::MouseMovedEvent &e) {
+        printf("Mouse Moved : %f , %f\n", e.GetX(), e.GetY());
         return true;
     });
 }

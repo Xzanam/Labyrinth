@@ -58,8 +58,9 @@ namespace Core {
         template<typename Derived, EventType Type, int CategoryFlags>
         class EventBase: public Event {
         public :
-                static constexpr EventType GetStaticType() { return Type;}
-                EventType GetEventType() const override{ return Type ;}
+                static constexpr EventType StaticType = Type;
+                static constexpr EventType GetStaticType() { return StaticType;}
+                EventType GetEventType() const override{ return StaticType ;}
                 const char* GetName() const override { return typeid(Derived).name(); }
                 int GetCategoryFlags() const override { return CategoryFlags;}
         };

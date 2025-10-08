@@ -9,7 +9,8 @@
 #include <iostream>
 #include <bits/ostream.tcc>
 
-#include "Events/KeyPressedEvent.h"
+#include "KeyBoardEvents.h"
+#include "MouseEvents.h"
 
 
 namespace Core {
@@ -78,11 +79,18 @@ namespace Core {
                     break;
                 }
                 case GLFW_RELEASE: {
-                    KeyPressedEvent event(key, false);
-                    //to be implemented KeyReleaseEvent();
+                    KeyReleasedEvent event(key);
+                    win->m_EventCallback(event);
                     break;
                 }
             }
+        });
+
+        glfwSetCursorPosCallback(m_Handle, [](GLFWwindow* window, double xpos, double ypos) {
+            auto *win = static_cast<Window*>(glfwGetWindowUserPointer(window));
+            if (!win -> m_EventCallback) { return; }
+            MouseMovedEvent event((float) xpos, (float) ypos);
+            win->m_EventCallback(event);
         });
 
     }
