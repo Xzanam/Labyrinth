@@ -51,8 +51,22 @@ namespace Core {
     }
 
 
-    void Camera::handleMouseMovement(float xOffset, float yOffset, GLboolean const constraintPitch) {
-        float sensitivity =  0.1f;
+    void Camera::handleMouseMovement(float xPos, float yPos,const GLboolean constraintPitch) {
+
+        float sensitivity =  0.01f;
+
+        if (firstMouse) {
+            lastX = xPos;
+            lastY = yPos;
+            firstMouse = false;
+        }
+
+        float xOffset = xPos - lastX;
+        float yOffset = lastY - yPos;
+
+        lastX = xPos;
+        lastY = yPos;
+
         xOffset *= sensitivity;
         yOffset *= sensitivity;
 
@@ -67,7 +81,6 @@ namespace Core {
                 _pitch = -89.0f;
         }
         this->updateCameraVectors();
-
     }
 
 
@@ -87,7 +100,6 @@ namespace Core {
 
 
     void Camera::setProjectionMatrix(glm::mat4 projection){
-
         projectionMatrix = projection;
     }
 

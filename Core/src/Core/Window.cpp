@@ -93,6 +93,13 @@ namespace Core {
             win->m_EventCallback(event);
         });
 
+        glfwSetFramebufferSizeCallback(m_Handle, [](GLFWwindow* window, int width, int height) {
+            auto *win = static_cast<Window*>(glfwGetWindowUserPointer(window));
+            if (!win -> m_EventCallback) { return; }
+            glViewport(0, 0, width, height);
+            std::cout<<"Window Resized to - Width: " << width<<" | Height: " << height<<std::endl;
+        });
+
     }
 
 

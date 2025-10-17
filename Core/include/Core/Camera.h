@@ -34,6 +34,9 @@ namespace Core {
 
 
 
+        float lastX;
+        float lastY;
+        bool firstMouse;
 
 
         float _cameraSpeed = 2.5f;
@@ -45,7 +48,7 @@ namespace Core {
     public:
 
 
-        Camera(glm::vec3 position= glm::vec3(0.0f, 0.0f, 3.0f),
+        explicit Camera(glm::vec3 position= glm::vec3(0.0f, 0.0f, 3.0f),
                glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f),
                float yaw = -90.0f,
                float pitch = 0.0f) ;
@@ -56,11 +59,10 @@ namespace Core {
         glm::mat4 getProjectionMatrix() const;
 
         void handleCameraMovement(CameraMovement direction, float deltaTime);
-        virtual void handleMouseMovement(float xOffset, float yOffset, GLboolean const constraintPitch);
+        virtual void handleMouseMovement(float xOffset, float yOffset, GLboolean constraintPitch = true);
 
         void setPosition(const glm::vec3& position) ;
         void printPosition();
-        void toggleDevCam();
 
 
         virtual ~Camera() = default;

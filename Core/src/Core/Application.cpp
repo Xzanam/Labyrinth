@@ -7,6 +7,7 @@
 #include "Renderer/GLUtils.h"
 
 #include <iostream>
+#include <ranges>
 
 namespace Core {
     static Application* s_Application = nullptr;
@@ -46,6 +47,8 @@ namespace Core {
         if (GLAD_GL_VERSION_4_5 || GLAD_GL_ARB_direct_state_access) {
             std::cout << glGetString(GL_VERSION) << "\n DSA supported" <<  std::endl;
         }
+        glm::vec2 dim = GetFramebufferSize();
+        glViewport(0, 0, (int) dim.x, (int) dim.y);
         while (m_Running) {
             glfwPollEvents();
             if (m_Window->ShouldClose()) {
@@ -70,8 +73,8 @@ namespace Core {
 
     //This is being called from the constructor : m_Window -> SetEventCallback();
     void Application::OnEvent(Event& event) {
-        for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it) {
-            (*it)->OnEvent(event);
+        for (auto & it : std::ranges::reverse_view(m_LayerStack)) {
+            it->OnEvent(event);
             if (event.Handled) break; // if the event has been handled in one of the layers do not pass it to other layers.
         }
     }

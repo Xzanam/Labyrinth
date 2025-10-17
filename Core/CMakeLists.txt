@@ -5,7 +5,7 @@ list(APPEND INCLUDE_DIR include/Core)
 list(APPEND INCLUDE_DIR include/Core/Renderer)
 list(APPEND INCLUDE_DIR include/Core/Events)
 
-file(GLOB_RECURSE CORE_SOURCES ${SRC_DIR}/*.cpp )
+file(GLOB_RECURSE CORE_SOURCES ${SRC_DIR}/*.cpp)
 
 file(GLOB_RECURSE CORE_HEADERS ${INCLUDE_DIR}/*.h)
 
