@@ -7,6 +7,7 @@
 #include <memory>
 
 
+#include "CameraController.h"
 #include "Cube.h"
 #include "Core/Camera.h"
 
@@ -16,7 +17,7 @@ class GameLayer  : public Core::Layer{
 public:
     GameLayer();
 
-    virtual ~GameLayer();
+    ~GameLayer() override;
 
 
     void OnUpdate(float deltaTime) override;
@@ -27,10 +28,8 @@ private:
     std::unique_ptr<Core::Shader> triangleShader;
     std::unique_ptr<Core::Mesh> mesh;
     std::unique_ptr<Core::Camera> camera;
-
+    std::unique_ptr<CameraController> camController;
     std::unique_ptr<Cube> cube;
-
-
 };
 
 

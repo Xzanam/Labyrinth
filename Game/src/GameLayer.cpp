@@ -28,11 +28,12 @@ GameLayer::GameLayer() {
     camera = std::make_unique<Core::Camera>();
     cube = std::make_unique<Cube>();
 
-
+    //need to fix this
     float height = 720.0f;
     float width = 1280.0f;
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), width/height, 0.1f, 100.0f );
     camera->setProjectionMatrix(projection);
+    camController = std::make_unique<CameraController>(*camera);
 
 }
 
@@ -49,24 +50,40 @@ void GameLayer::OnRender() {
 
 
 void GameLayer::OnUpdate(float deltaTime) {
+    camController->OnUpdate(deltaTime);
 }
 
 
 void GameLayer::OnEvent(Core::Event& event) {
+    camController->OnEvent(event);
     Core::EventDispatcher dispatcher(event);
     dispatcher.Dispatch<Core::KeyPressedEvent>([this](Core::KeyPressedEvent &e) {
         // std::cout << "Key Pressed : "  << e.GetKeyCode() << std::endl;
             switch (e.GetKeyCode()) {
-                case Core::Keys::KEY_ESCAPE  : {
-                    Core::Application::Get().Stop();
+                case Core::Keys::KEY_ESCAPE  :
+                    {
+                        Core::Application::Get().Stop();
+                    }
+                    break;
+                case Core::Keys::KEY_TAB : {
+                    auto& window = Core::Application::Get().GetWindow();
+                    auto currCursorMode = window.GetCursorMode();
+                    if (currCursorMode == Core::CursorMode::DISABLED) {
+                        window.SetCursorMode(Core::CursorMode::NORMAL);
+                    }
+                    else
+                        window.SetCursorMode(Core::CursorMode::DISABLED);
                 }
+                    break;
+                default:
+                    break;
             }
-        return true;
+        return false;
     });
 
     dispatcher.Dispatch<Core::MouseMovedEvent>([this](Core::MouseMovedEvent &e) {
-        printf("Mouse Moved : %f , %f\n", e.GetX(), e.GetY());
-        camera->handleMouseMovement(e.GetX(),e.GetY());
-        return true;
+        // printf("Mouse Moved : %f , %f\n", e.GetX(), e.GetY());
+            return false;
     });
+
 }

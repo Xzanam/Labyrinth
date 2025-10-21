@@ -12,6 +12,13 @@
 namespace Core {
     enum Keys {
         KEY_ESCAPE  = GLFW_KEY_ESCAPE,
+        KEY_A       = GLFW_KEY_A,
+        KEY_S       = GLFW_KEY_S,
+        KEY_D       = GLFW_KEY_D,
+        KEY_W       = GLFW_KEY_W,
+        KEY_SPACE   = GLFW_KEY_SPACE,
+        KEY_LEFT_SHIFT = GLFW_KEY_LEFT_SHIFT,
+        KEY_TAB       = GLFW_KEY_TAB,
     };
 
     class KeyPressedEvent : public EventBase<KeyPressedEvent,EventType::KeyPressed,EventCategoryKeyboard || EventCategoryInput> {
