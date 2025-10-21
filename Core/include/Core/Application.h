@@ -37,7 +37,9 @@ namespace Core {
 
         glm::vec2 GetFramebufferSize() const;
         static Application& Get();
+        Window& GetWindow();
         static float GetTime();
+
 
     private:
         ApplicationSpecification m_Specification;
@@ -45,9 +47,6 @@ namespace Core {
 
         bool m_Running = false;
         std::vector<std::unique_ptr<Layer>> m_LayerStack;
-
-
-
     };
 
 }

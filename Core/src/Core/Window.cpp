@@ -102,6 +102,28 @@ namespace Core {
 
     }
 
+    void Window::SetCursorMode(CursorMode mode) {
+        m_CursorMode = mode;
+        switch (mode) {
+            case CursorMode::NORMAL:
+                glfwSetInputMode(m_Handle, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+                break;
+            case CursorMode::HIDDEN:
+                glfwSetInputMode(m_Handle, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+                break;
+            case CursorMode::DISABLED:
+                glfwSetInputMode(m_Handle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+                break;
+        }
+    }
+
+    CursorMode Window::GetCursorMode() const {
+        return m_CursorMode;
+    }
+
+
+
+
 
 
 }

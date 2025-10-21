@@ -13,6 +13,13 @@
 #include "Events/Event.h"
 
 namespace Core {
+
+    enum CursorMode {
+        NORMAL,
+        HIDDEN,
+        DISABLED
+    };
+
     struct WindowSpecification {
         std::string Title;
         uint32_t Width = 1280;
@@ -32,6 +39,9 @@ namespace Core {
         glm::vec2  GetFramebufferSize();
         bool ShouldClose() const;
 
+        void SetCursorMode(CursorMode mode );
+        CursorMode GetCursorMode() const;
+
 
         GLFWwindow* GetHandle() const {return m_Handle;}
 
@@ -42,6 +52,7 @@ namespace Core {
         WindowSpecification m_WindowSpec;
         GLFWwindow* m_Handle;
         EventCallBackFn m_EventCallback;
+        CursorMode m_CursorMode = NORMAL;
     };
 
 

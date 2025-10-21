@@ -57,7 +57,7 @@ namespace Core {
             }
 
             float currentTime = GetTime();
-            float  deltaTime= glm::clamp(currentTime - lastTime, 0.0001f, 0.1f);
+            float  deltaTime= glm::clamp(currentTime - lastTime, 0.000001f, 0.1f);
             lastTime = currentTime;
 
             for (const std::unique_ptr<Layer>& layer : m_LayerStack) {
@@ -90,6 +90,10 @@ namespace Core {
     Application& Application::Get() {
         assert(s_Application);
         return *s_Application;
+    }
+    Window& Application::GetWindow() {
+        assert(m_Window);
+        return (*m_Window);
     }
 
     float Application::GetTime() {
