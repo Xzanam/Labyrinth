@@ -28,6 +28,7 @@ GameLayer::GameLayer() {
     camera = std::make_unique<Core::Camera>();
     cube = std::make_unique<Cube>();
 
+    maze = std::make_unique<MazeMesh>();
     //need to fix this
     float height = 720.0f;
     float width = 1280.0f;
@@ -35,6 +36,7 @@ GameLayer::GameLayer() {
     camera->setProjectionMatrix(projection);
     camController = std::make_unique<CameraController>(*camera);
 
+    maze->PrintMaze();
 }
 
 GameLayer::~GameLayer() {
@@ -45,7 +47,8 @@ void GameLayer::OnRender() {
     triangleShader->use();
     triangleShader->setMat4("projection", camera->getProjectionMatrix());
     triangleShader->setMat4("view", camera->getViewMatrix());
-    cube->OnRender(*triangleShader);;
+    // cube->OnRender(*triangleShader);;
+    maze->OnRender(*triangleShader) ;
 }
 
 

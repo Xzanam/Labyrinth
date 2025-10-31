@@ -58,4 +58,28 @@ namespace Core {
         glBindVertexArray(m_VAO);
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_Indices.size()), GL_UNSIGNED_INT, nullptr);
     }
+
+    size_t Mesh::GetVertexSize() const {
+        return m_Vertices.size();
+    }
+
+    void Mesh::PushVertex(const Vertex& vertex) {
+        m_Vertices.push_back(vertex);
+    }
+
+    void Mesh::PushVertices(const std::vector<Vertex> &vertices) {
+       m_Vertices.insert(m_Vertices.end(), vertices.begin(), vertices.end());
+    }
+
+    void Mesh::PushIndices(const std::vector<unsigned int> &indices) {
+        m_Indices.insert(m_Indices.end(), indices.begin(), indices.end());
+    }
+
+    void Mesh::PushIndex(unsigned int index) {
+       m_Indices.push_back(index);
+    }
+
+
+
+
 }

@@ -11,6 +11,8 @@
 #include "Cube.h"
 #include "Core/Camera.h"
 
+#include "Maze.h"
+
 
 
 class GameLayer  : public Core::Layer{
@@ -30,6 +32,7 @@ private:
     std::unique_ptr<Core::Camera> camera;
     std::unique_ptr<CameraController> camController;
     std::unique_ptr<Cube> cube;
+    std::unique_ptr<MazeMesh> maze;
 };
 
 

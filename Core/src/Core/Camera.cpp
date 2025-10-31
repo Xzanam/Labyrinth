@@ -47,7 +47,7 @@ namespace Core {
 
         }
         _lookAt = glm::lookAt(_position, _position + _front, _up);
-        printPosition();
+        // printPosition();
     }
 
 

@@ -24,17 +24,21 @@ namespace Core {
         std::vector<Vertex> m_Vertices;
         std::vector<unsigned int> m_Indices;
 
-        void SetupMesh();
-
         void InitGLResources();
 
     public:
 
-        Mesh()  ;
-
+        Mesh();
         Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
-
         void SetData(std::vector<Vertex> vertices, std::vector<unsigned int> indices) ;
+        void SetupMesh();
+        void PushVertices(const std::vector<Vertex>& vertices);
+        void PushVertex(const Vertex& vertex );
+        void PushIndex(unsigned int index);
+        void PushIndices(const std::vector<unsigned int>& indices );
+
+
+        [[nodiscard]] size_t GetVertexSize() const;
         void Draw() const;
     };
 
