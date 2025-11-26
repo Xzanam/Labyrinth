@@ -120,7 +120,7 @@ private:
 public:
     MazeMesh();
     inline void AddBox(glm::vec3 min , glm::vec3 max) ;
-    void GenerateMesh(float cellSize = 1.0f, float wallThickness = 0.1f, float wallHeight = 2.0f);
+    void GenerateMesh(float cellSize = 1.0f, float wallThickness = 0.3f, float wallHeight = 0.6f);
     void PrintMaze();
     void OnRender(Core::Shader& shader) const;
 
