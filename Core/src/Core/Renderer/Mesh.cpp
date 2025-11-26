@@ -10,7 +10,6 @@ namespace Core {
         InitGLResources();
     }
 
-
     Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices)
         : m_VAO(0), m_VBO(0), m_EBO(0), m_Vertices(std::move(vertices)), m_Indices(std::move(indices)){
         InitGLResources();
@@ -50,7 +49,6 @@ namespace Core {
         glVertexArrayAttribFormat(m_VAO, 2, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex,TexCoords));
         glVertexArrayAttribBinding(m_VAO, 2, 0);
 
-        std::cout<<"AllGood! " <<std::endl;
     }
 
 
@@ -79,7 +77,9 @@ namespace Core {
        m_Indices.push_back(index);
     }
 
-
-
+    void Mesh::Clear() {
+        m_Vertices.clear();
+        m_Indices.clear();
+    }
 
 }

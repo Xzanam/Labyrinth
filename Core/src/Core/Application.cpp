@@ -11,6 +11,7 @@
 
 namespace Core {
     static Application* s_Application = nullptr;
+
     static void GLFWErrorCallback(int error, const char* description) {
         std::cerr << "[GLFW Error]: " << description << std::endl;
     }
@@ -50,16 +51,16 @@ namespace Core {
         glm::vec2 dim = GetFramebufferSize();
         glViewport(0, 0, (int) dim.x, (int) dim.y);
         while (m_Running) {
+
             glfwPollEvents();
             if (m_Window->ShouldClose()) {
                 Stop();
                 break;
             }
-
             float currentTime = GetTime();
             float  deltaTime= glm::clamp(currentTime - lastTime, 0.000001f, 0.1f);
-            lastTime = currentTime;
 
+            lastTime = currentTime;
             for (const std::unique_ptr<Layer>& layer : m_LayerStack) {
                 layer->OnUpdate(deltaTime);
             }

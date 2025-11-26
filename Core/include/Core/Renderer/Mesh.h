@@ -36,6 +36,7 @@ namespace Core {
         void PushVertex(const Vertex& vertex );
         void PushIndex(unsigned int index);
         void PushIndices(const std::vector<unsigned int>& indices );
+        void Clear();
 
 
         [[nodiscard]] size_t GetVertexSize() const;

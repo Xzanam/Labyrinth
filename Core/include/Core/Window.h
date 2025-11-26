@@ -27,6 +27,7 @@ namespace Core {
         bool IsResizable = true;
         bool VSync = true;
     };
+
     class Window {
     public :
         Window(const WindowSpecification& spec = WindowSpecification());

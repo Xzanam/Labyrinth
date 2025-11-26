@@ -29,6 +29,7 @@ namespace Core {
 
         template<typename TLayer>
         requires(std::is_base_of_v<Layer, TLayer>)
+
         void PushLayer() {
             m_LayerStack.push_back(std::make_unique<TLayer>());
         }

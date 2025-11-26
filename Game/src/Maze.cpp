@@ -72,4 +72,58 @@ void MazeMesh::OnRender(Core::Shader& shader) const {
     shader.use();
     shader.setMat4("model", glm::mat4(1.0f));
     m_mesh.Draw();
+
 }
+
+
+void MazeMesh::GenerateMesh(float cellSize, float wallThickness, float wallHeight) {
+    m_mesh.Clear();
+    m_wallAABBs.clear();
+
+    for (int y = 0; y < m_maze.height; ++y) {
+        for (int x = 0; x < m_maze.width; ++x) {
+            auto c = m_maze.cells[m_maze.Idx(x, y)];
+
+            float minX = x * cellSize;
+            float maxX = (x + 1) * cellSize;
+            float minZ = y * cellSize;
+            float maxZ = (y + 1) * cellSize;
+            float minY = 0.0f;
+            float maxY = wallHeight;
+
+            // North wall (along X at minZ)
+            if (c & WALL_N) {
+                glm::vec3 mn(minX, minY, minZ - wallThickness * 0.5f);
+                glm::vec3 mx(maxX, maxY, minZ + wallThickness * 0.5f);
+                AddBox(mn, mx);
+                m_wallAABBs.push_back({mn, mx});
+            }
+
+            // West wall (along Z at minX)
+            if (c & WALL_W) {
+                glm::vec3 mn(minX - wallThickness * 0.5f, minY, minZ);
+                glm::vec3 mx(minX + wallThickness * 0.5f, maxY, maxZ);
+                AddBox(mn, mx);
+                m_wallAABBs.push_back({mn, mx});
+            }
+
+            // East boundary (to avoid double creating, only create for last column)
+            if (x == m_maze.width - 1 && (c & WALL_E)) {
+                glm::vec3 mn(maxX - wallThickness * 0.5f, minY, minZ);
+                glm::vec3 mx(maxX + wallThickness * 0.5f, maxY, maxZ);
+                AddBox(mn, mx);
+                m_wallAABBs.push_back({mn, mx});
+            }
+
+            // South boundary (for the last row)
+            if (y == m_maze.height - 1 && (c & WALL_S)) {
+                glm::vec3 mn(minX, minY, maxZ - wallThickness * 0.5f);
+                glm::vec3 mx(maxX, maxY, maxZ + wallThickness * 0.5f);
+                AddBox(mn, mx);
+                m_wallAABBs.push_back({mn, mx});
+            }
+        }
+    }
+}
+
+
