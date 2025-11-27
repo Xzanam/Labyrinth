@@ -3,7 +3,7 @@
 #include "GameLayer.h"
 
 int main() {
-    Core::Application Game;
+    Core::Application Game({"Labyrinth"});
     Game.PushLayer<GameLayer>();
     Game.Run();
     return 0;

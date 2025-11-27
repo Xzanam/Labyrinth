@@ -27,16 +27,29 @@ GameLayer::GameLayer() {
 
     camera = std::make_unique<Core::Camera>();
     cube = std::make_unique<Cube>();
+    maze = std::make_unique<Maze>();
 
-    maze = std::make_unique<MazeMesh>();
+
+    glm::mat4 mazeModel = glm::translate(glm::mat4(1.0f), glm::vec3(-5.0f, 0.0f, -5.0f));
+    maze->setModelMatrix(mazeModel);
+
+    //the grounPlane
+    glm::mat4 groundModel = glm::scale(glm::mat4(1.0f), glm::vec3(10.0f, -0.5f, 10.0f));
+    groundPlane = std::make_unique<Cube>(groundModel, Colors::Black);
+
+
     //need to fix this
     float height = 720.0f;
     float width = 1280.0f;
+
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), width/height, 0.1f, 100.0f );
+
     camera->setProjectionMatrix(projection);
     camController = std::make_unique<CameraController>(*camera);
 
     maze->PrintMaze();
+
+    glEnable(GL_DEPTH_TEST);
 }
 
 GameLayer::~GameLayer() {
@@ -48,6 +61,7 @@ void GameLayer::OnRender() {
     triangleShader->setMat4("projection", camera->getProjectionMatrix());
     triangleShader->setMat4("view", camera->getViewMatrix());
     // cube->OnRender(*triangleShader);;
+    groundPlane->OnRender(*triangleShader);
     maze->OnRender(*triangleShader) ;
 }
 

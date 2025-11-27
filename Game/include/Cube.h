@@ -7,27 +7,28 @@
 
 #include "Core/Renderer/Mesh.h"
 #include <memory>
-
-#include "Core/Renderer/Shader.h"
-
-class Cube {
-
+#include "Object.h"
+class Cube : public Game::Object
+{
 private:
-    std::unique_ptr<Core::Mesh> cubeMesh;
-    glm::mat4 modelMatrix;
 
-public :
+public:
     Cube();
-    inline std::pair<std::vector<Core::Vertex>, std::vector<unsigned int>>GenerateCube(float = 1.0f);
-    void OnRender(Core::Shader& shader) const;
+    Cube(const glm::mat4 &matrix, const glm::vec3 &col); 
+
+    inline std::pair<std::vector<Core::Vertex>, std::vector<unsigned int>> GenerateCube(float size = 1.0f);
+
+    void setModelMatrix(glm::mat4 &matrix)
+    {
+        modelMatrix = matrix;
+    }
+    const glm::mat4 &getModelMatrix() const
+    {
+        return modelMatrix;
+    }
+
+
     ~Cube();
-
-
-
-
-
 };
 
-
-
-#endif //CUBE_H
+#endif // CUBE_H

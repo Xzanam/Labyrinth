@@ -32,7 +32,8 @@ private:
     std::unique_ptr<Core::Camera> camera;
     std::unique_ptr<CameraController> camController;
     std::unique_ptr<Cube> cube;
-    std::unique_ptr<MazeMesh> maze;
+    std::unique_ptr<Maze> maze;
+    std::unique_ptr<Cube> groundPlane;
 };
 
 

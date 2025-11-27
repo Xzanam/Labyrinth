@@ -19,6 +19,10 @@ namespace Core {
         KEY_SPACE   = GLFW_KEY_SPACE,
         KEY_LEFT_SHIFT = GLFW_KEY_LEFT_SHIFT,
         KEY_TAB       = GLFW_KEY_TAB,
+        KEY_LEFT = GLFW_KEY_LEFT, 
+        KEY_RIGHT = GLFW_KEY_RIGHT,
+        KEY_UP = GLFW_KEY_UP,
+        KEY_DOWN = GLFW_KEY_DOWN
     };
 
     class KeyPressedEvent : public EventBase<KeyPressedEvent,EventType::KeyPressed,EventCategoryKeyboard || EventCategoryInput> {

@@ -44,6 +44,14 @@ void CameraController::OnUpdate(float deltaTime) {
     if (m_Keys[Core::Keys::KEY_D]) m_camera.handleCameraMovement(Core::CameraMovement::RIGHT, deltaTime);
     if (m_Keys[Core::Keys::KEY_SPACE]) m_camera.handleCameraMovement(Core::CameraMovement::UP, deltaTime);
     if (m_Keys[Core::Keys::KEY_LEFT_SHIFT]) m_camera.handleCameraMovement(Core::CameraMovement::DOWN, deltaTime);
+
+    if(m_Keys[Core::Keys::KEY_UP]) m_VirtualMouseY -=  keyBoardLookUpSpeed * deltaTime * 500.0f;
+    if(m_Keys[Core::Keys::KEY_DOWN]) m_VirtualMouseY += keyBoardLookUpSpeed * deltaTime * 500.0f;
+    if(m_Keys[Core::Keys::KEY_LEFT]) m_VirtualMouseX -= keyBoardLookUpSpeed * deltaTime * 500.0f;
+    if(m_Keys[Core::Keys::KEY_RIGHT]) m_VirtualMouseX += keyBoardLookUpSpeed * deltaTime * 500.0f;
+
+    m_camera.handleMouseMovement(m_VirtualMouseX, m_VirtualMouseY);
+
 }
 
 
