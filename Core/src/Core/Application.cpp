@@ -1,0 +1,105 @@
+//
+// Created by Janam Shrestha on 10/2/25.
+//
+
+
+#include "Core/Application.h"
+#include "Renderer/GLUtils.h"
+
+#include <iostream>
+#include <ranges>
+
+namespace Core {
+    static Application* s_Application = nullptr;
+
+    static void GLFWErrorCallback(int error, const char* description) {
+        std::cerr << "[GLFW Error]: " << description << std::endl;
+    }
+
+    Application::Application(const ApplicationSpecification &specification) :
+    m_Specification(specification)
+    {
+        s_Application = this;
+        glfwSetErrorCallback(GLFWErrorCallback);
+        if (!glfwInit()) {
+            std::cerr << "Failed to initialize GLFW!" << std::endl;
+        }
+
+        if (m_Specification.WindowSpec.Title.empty())
+            m_Specification.WindowSpec.Title = m_Specification.Name;
+
+        m_Window = std::make_shared<Window>(m_Specification.WindowSpec);
+        m_Window->Create();
+        m_Window->SetEventCallback([this](Event& e) { OnEvent(e);});
+
+        Renderer::Utils::InitOpenGLDebugMessageCallback();
+    }
+
+
+    Application::~Application() {
+        m_Window->Destroy();
+        glfwTerminate();
+        s_Application = nullptr;
+    }
+
+    void Application::Run() {
+        m_Running = true;
+        float lastTime = GetTime() ;
+        if (GLAD_GL_VERSION_4_5 || GLAD_GL_ARB_direct_state_access) {
+            std::cout << glGetString(GL_VERSION) << "\n DSA supported" <<  std::endl;
+        }
+        glm::vec2 dim = GetFramebufferSize();
+        glViewport(0, 0, (int) dim.x, (int) dim.y);
+        while (m_Running) {
+
+            glfwPollEvents();
+            if (m_Window->ShouldClose()) {
+                Stop();
+                break;
+            }
+            float currentTime = GetTime();
+            float  deltaTime= glm::clamp(currentTime - lastTime, 0.000001f, 0.1f);
+
+            lastTime = currentTime;
+            for (const std::unique_ptr<Layer>& layer : m_LayerStack) {
+                layer->OnUpdate(deltaTime);
+            }
+            for (const std::unique_ptr<Layer>& layer: m_LayerStack) {
+                layer->OnRender();
+            }
+            m_Window->Update();
+        }
+
+    }
+
+    //This is being called from the constructor : m_Window -> SetEventCallback();
+    void Application::OnEvent(Event& event) {
+        for (auto & it : std::ranges::reverse_view(m_LayerStack)) {
+            it->OnEvent(event);
+            if (event.Handled) break; // if the event has been handled in one of the layers do not pass it to other layers.
+        }
+    }
+
+    void Application::Stop() {
+        m_Running = false;
+    }
+
+    glm::vec2 Application::GetFramebufferSize() const {
+        return m_Window->GetFramebufferSize();
+    }
+
+    Application& Application::Get() {
+        assert(s_Application);
+        return *s_Application;
+    }
+    Window& Application::GetWindow() {
+        assert(m_Window);
+        return (*m_Window);
+    }
+
+    float Application::GetTime() {
+        return static_cast<float>(glfwGetTime());
+    }
+}
+
+
