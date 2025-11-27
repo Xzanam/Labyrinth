@@ -28,6 +28,9 @@ private:
     Core::Camera& m_camera;
     float m_moveSpeed;
     std::unordered_map<int, bool> m_Keys;
+    float m_VirtualMouseX = 400.0f;
+    float m_VirtualMouseY = 300.0f;
+    float keyBoardLookUpSpeed = 3.0f;
 };
 
 
