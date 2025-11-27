@@ -8,22 +8,20 @@
 #include "Shader.h"
 
 
-Cube::Cube() {
+Cube::Cube() : Game::Object() {
     auto [vertices, indices] = this->GenerateCube();
-    cubeMesh = std::make_unique<Core::Mesh>(vertices, indices);
+    mesh.SetData(vertices, indices);
     modelMatrix = glm::mat4(1.0f);
 }
 
 Cube::~Cube() {
 }
+Cube::Cube(const glm::mat4& matrix, const glm::vec3& color): Game::Object(matrix, color) {
+        auto [vertices, indices] = this->GenerateCube();
+        mesh.SetData(vertices, indices);
+    }
 
 
-
-void Cube::OnRender(Core::Shader& shader) const {
-    shader.use();
-    shader.setMat4("model", modelMatrix);
-    cubeMesh->Draw();
-}
 
 
 std::pair<std::vector<Core::Vertex>, std::vector<unsigned int> > Cube::GenerateCube(float size)   {

@@ -10,6 +10,7 @@
 
 #include "Core/Renderer/Shader.h"
 #include <iostream>
+#include "Object.h"
 
 enum CellWall: uint8_t{
     WALL_N = 1<< 0,
@@ -19,10 +20,10 @@ enum CellWall: uint8_t{
     VISITED = 1<< 4,
 };
 
-struct Maze {
+struct MazeGenerator {
     int width, height;
     std::vector<uint8_t> cells;
-    Maze(int width, int height) : width(width), height(height), cells(width * height, WALL_N | WALL_E | WALL_S | WALL_W  ) {};
+    MazeGenerator(int width, int height) : width(width), height(height), cells(width * height, WALL_N | WALL_E | WALL_S | WALL_W  ) {};
 
     inline int Idx(int x, int y) const {
         return y * width + x;
@@ -111,18 +112,16 @@ struct AABB {
     glm::vec3 min , max;
 };
 
-class MazeMesh  {
+class Maze : public Game::Object  { 
 private:
-    Maze m_maze;
-    Core::Mesh m_mesh;
+    MazeGenerator m_maze;
     std::vector<AABB> m_wallAABBs;
 
 public:
-    MazeMesh();
+    Maze();
     inline void AddBox(glm::vec3 min , glm::vec3 max) ;
     void GenerateMesh(float cellSize = 1.0f, float wallThickness = 0.3f, float wallHeight = 0.6f);
     void PrintMaze();
-    void OnRender(Core::Shader& shader) const;
 
 };
 
