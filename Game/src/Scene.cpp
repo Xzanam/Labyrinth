@@ -4,7 +4,7 @@
 constexpr float BALLRADIUS = 0.2f;
 
 Scene::Scene() {
-    maze = std::make_unique<Maze>();
+    maze = std::make_unique<Maze>(30, 30);
     ball = std::make_unique<Ball>(BALLRADIUS, glm::vec3(0.0f, 10.0f, 0.0f));
     ballController = std::make_unique<BallController>(*ball);
 

@@ -88,7 +88,6 @@ void GameLayer::OnEvent(Core::Event& event) {
     });
 
     dispatcher.Dispatch<Core::MouseMovedEvent>([this](Core::MouseMovedEvent &e) {
-        // printf("Mouse Moved : %f , %f\n", e.GetX(), e.GetY());
             return false;
     });
 
