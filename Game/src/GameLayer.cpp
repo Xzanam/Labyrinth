@@ -16,27 +16,10 @@
 using Vertex = Core::Vertex;
 
 GameLayer::GameLayer() {
-    std::vector<Vertex> vertices = {
-        Vertex({0.0f, 0.5f, 0.0f}),
-        Vertex({1.0f, 0.0f, 0.0f}),
-        Vertex({-1.0f, 0.0f, 0.0f}),
-    };
-
-    mesh = std::make_unique<Core::Mesh>(vertices, std::vector<unsigned int>{0,1,2});
-    triangleShader = std::make_unique<Core::Shader>("shaders/vertex.glsl", "shaders/fragment.glsl");
-
+  
+    gameShader = std::make_unique<Core::Shader>("shaders/vertex.glsl", "shaders/fragment.glsl");
     camera = std::make_unique<Core::Camera>();
-    cube = std::make_unique<Cube>();
-    maze = std::make_unique<Maze>();
-
-
-    glm::mat4 mazeModel = glm::translate(glm::mat4(1.0f), glm::vec3(-5.0f, 0.0f, -5.0f));
-    maze->setModelMatrix(mazeModel);
-
-    //the grounPlane
-    glm::mat4 groundModel = glm::scale(glm::mat4(1.0f), glm::vec3(10.0f, -0.5f, 10.0f));
-    groundPlane = std::make_unique<Cube>(groundModel, Colors::Black);
-
+    gameScene = std::make_unique<Scene>();
 
     //need to fix this
     float height = 720.0f;
@@ -47,8 +30,6 @@ GameLayer::GameLayer() {
     camera->setProjectionMatrix(projection);
     camController = std::make_unique<CameraController>(*camera);
 
-    maze->PrintMaze();
-
     glEnable(GL_DEPTH_TEST);
 }
 
@@ -57,22 +38,24 @@ GameLayer::~GameLayer() {
 void GameLayer::OnRender() {
     glClearColor(0.2f, 0.3f, 0.4f, 0.5f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    triangleShader->use();
-    triangleShader->setMat4("projection", camera->getProjectionMatrix());
-    triangleShader->setMat4("view", camera->getViewMatrix());
-    // cube->OnRender(*triangleShader);;
-    groundPlane->OnRender(*triangleShader);
-    maze->OnRender(*triangleShader) ;
+
+    gameShader->use();
+    gameShader->setMat4("projection", camera->getProjectionMatrix());
+    gameShader->setMat4("view", camera->getViewMatrix());
+
+    gameScene->OnRender(*gameShader);
 }
 
 
 void GameLayer::OnUpdate(float deltaTime) {
     camController->OnUpdate(deltaTime);
+    gameScene->OnUpdate(deltaTime);
 }
 
 
 void GameLayer::OnEvent(Core::Event& event) {
     camController->OnEvent(event);
+    gameScene->OnEvent(event);
     Core::EventDispatcher dispatcher(event);
     dispatcher.Dispatch<Core::KeyPressedEvent>([this](Core::KeyPressedEvent &e) {
         // std::cout << "Key Pressed : "  << e.GetKeyCode() << std::endl;
@@ -92,6 +75,12 @@ void GameLayer::OnEvent(Core::Event& event) {
                         window.SetCursorMode(Core::CursorMode::DISABLED);
                 }
                     break;
+                case Core::Keys::KEY_T :
+                    moveCamera = !moveCamera;
+                    camController->setCamerToggle(moveCamera);
+                    gameScene->setBallControlToggle(!moveCamera);
+                    break;
+
                 default:
                     break;
             }

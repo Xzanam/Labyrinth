@@ -22,7 +22,8 @@ namespace Core {
         KEY_LEFT = GLFW_KEY_LEFT, 
         KEY_RIGHT = GLFW_KEY_RIGHT,
         KEY_UP = GLFW_KEY_UP,
-        KEY_DOWN = GLFW_KEY_DOWN
+        KEY_DOWN = GLFW_KEY_DOWN,
+        KEY_T = GLFW_KEY_T
     };
 
     class KeyPressedEvent : public EventBase<KeyPressedEvent,EventType::KeyPressed,EventCategoryKeyboard || EventCategoryInput> {

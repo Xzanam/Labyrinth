@@ -18,14 +18,7 @@ public:
 
     inline std::pair<std::vector<Core::Vertex>, std::vector<unsigned int>> GenerateCube(float size = 1.0f);
 
-    void setModelMatrix(glm::mat4 &matrix)
-    {
-        modelMatrix = matrix;
-    }
-    const glm::mat4 &getModelMatrix() const
-    {
-        return modelMatrix;
-    }
+  
 
 
     ~Cube();

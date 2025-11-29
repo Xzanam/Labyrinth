@@ -2,16 +2,15 @@
 #define GAMELAYER_H
 
 #include "Layer.h"
-#include "Mesh.h"
 #include "Shader.h"
 #include <memory>
 
 
+#include "BallController.h"
 #include "CameraController.h"
-#include "Cube.h"
 #include "Core/Camera.h"
+#include "Scene.h"
 
-#include "Maze.h"
 
 
 
@@ -27,13 +26,12 @@ public:
     void OnEvent(Core::Event& event) override;
 
 private:
-    std::unique_ptr<Core::Shader> triangleShader;
-    std::unique_ptr<Core::Mesh> mesh;
+    std::unique_ptr<Core::Shader> gameShader;
     std::unique_ptr<Core::Camera> camera;
     std::unique_ptr<CameraController> camController;
-    std::unique_ptr<Cube> cube;
-    std::unique_ptr<Maze> maze;
-    std::unique_ptr<Cube> groundPlane;
+    std::unique_ptr<Scene>  gameScene;
+
+    bool moveCamera = true;
 };
 
 
