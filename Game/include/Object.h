@@ -25,8 +25,11 @@ namespace Game
             shader.use();
             shader.setMat4("model", modelMatrix);
             shader.setVec3("objectColor", color);
-            mesh.Draw();
+            mesh.Draw(); // Danger!!! needs mesh initialized in the derived class contructor
         }
+
+        virtual void OnUpdate(float deltaTime) {
+        };
         virtual ~Object() = default;
 
         void setModelMatrix(const glm::mat4 &matrix)

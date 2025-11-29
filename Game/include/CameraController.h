@@ -18,6 +18,7 @@ public:
     explicit CameraController(Core::Camera& camera, float moveSpeed = 2.5f);
     void OnEvent(Core::Event& e);
     void OnUpdate(float deltaTime);
+    void setCamerToggle(bool value) ;
     ~CameraController() = default;
 private:
     bool OnKeyPressed(Core::KeyPressedEvent& e);
@@ -25,6 +26,7 @@ private:
     bool OnMouseMoved(Core::MouseMovedEvent& e);
 
 
+    bool cameraToggled = true;
     Core::Camera& m_camera;
     float m_moveSpeed;
     std::unordered_map<int, bool> m_Keys;

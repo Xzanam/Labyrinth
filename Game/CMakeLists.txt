@@ -8,7 +8,7 @@ file(GLOB_RECURSE INCLUDE_FILES ${INCLUDE_DIR}/*.h)
 
 
 add_executable(${PROJECT_NAME})
-target_sources(${PROJECT_NAME} PRIVATE ${SRC_FILES} ${INCLUDE_FILES})
+target_sources(${PROJECT_NAME} PRIVATE ${SRC_FILES} src/Ball.cpp ${INCLUDE_FILES} src/BallController.cpp )
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIR})
 
 

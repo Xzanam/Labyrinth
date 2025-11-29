@@ -12,6 +12,8 @@
 #include <iostream>
 #include "Object.h"
 
+#include "Cube.h"
+#include "CollisionElements.h"
 enum CellWall: uint8_t{
     WALL_N = 1<< 0,
     WALL_E = 1 << 1,
@@ -108,14 +110,14 @@ struct MazeGenerator {
     }
 };
 
-struct AABB {
-    glm::vec3 min , max;
-};
+
 
 class Maze : public Game::Object  { 
 private:
     MazeGenerator m_maze;
+    Cube groundPlane;
     std::vector<AABB> m_wallAABBs;
+    std::vector<AABB> m_worldWallAABBs;
 
 public:
     Maze();
@@ -123,6 +125,11 @@ public:
     void GenerateMesh(float cellSize = 1.0f, float wallThickness = 0.3f, float wallHeight = 0.6f);
     void PrintMaze();
 
+
+    void UpdateAABBs();
+    const std::vector<AABB>& GetWallAABBs();
+
+    void OnRender(Core::Shader &shader) const override ;
 };
 
 

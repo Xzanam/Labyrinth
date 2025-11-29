@@ -1,11 +1,27 @@
 #include "Maze.h"
 #include "Colors.h"
 
+#include <glm/gtc/matrix_transform.hpp>
 
-Maze::Maze()  : m_maze(10, 10) {
+Maze::Maze()  : m_maze(10, 10), groundPlane() {
     m_maze.Generate();
     this->GenerateMesh();
     mesh.SetupMesh();
+
+    groundPlane.setModelMatrix(glm::scale(glm::mat4(1.0f), glm::vec3(10.0f, 0.1f, 10.0f)));
+    groundPlane.setColor(Colors::Black);
+    this->setModelMatrix(glm::translate(glm::mat4(1.0f), glm::vec3(-5.0f, 0.0f, -5.0f)));
+
+}
+
+
+void Maze::OnRender(Core::Shader &shader) const  {
+    shader.use();
+    shader.setMat4("model", this->getModelMatrix());
+    shader.setVec3("objectColor", this->getColor());
+    mesh.Draw(); 
+
+    groundPlane.OnRender(shader);
 }
 
 void Maze::AddBox(glm::vec3 min , glm::vec3 max) {
@@ -116,6 +132,28 @@ void Maze::GenerateMesh(float cellSize, float wallThickness, float wallHeight) {
             }
         }
     }
+    UpdateAABBs();
+}
+
+void Maze::UpdateAABBs() {
+    glm::vec3 pos = glm::vec3(this->modelMatrix[3]); // translation only
+
+    m_worldWallAABBs.clear();
+    m_worldWallAABBs.reserve(m_wallAABBs.size());
+
+    for (const auto& local : m_wallAABBs) {
+        m_worldWallAABBs.push_back({
+            local.min + pos,
+            local.max + pos
+        });
+    }
 }
 
 
+
+
+
+const std::vector<AABB> &Maze::GetWallAABBs() {
+    UpdateAABBs();
+    return m_worldWallAABBs;
+}
