@@ -60,6 +60,7 @@ namespace  Core {
             glGetShaderInfoLog(vertex, 512, NULL, infoLog);
             std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n"
                       << vertexPath << infoLog << std::endl;
+            exit(EXIT_FAILURE);
         };
 
         // fragment Shader
@@ -74,6 +75,7 @@ namespace  Core {
             glGetShaderInfoLog(fragment, 512, NULL, infoLog);
             std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n"
                       << fragmentPath << infoLog << std::endl;
+            exit(EXIT_FAILURE);
         };
 
         ID = glCreateProgram();

@@ -64,6 +64,10 @@ namespace Core {
         void setPosition(const glm::vec3& position) ;
         void printPosition();
 
+        const glm::vec3&  getPosition() const {
+            return _position;
+        };
+
 
         virtual ~Camera() = default;
 
