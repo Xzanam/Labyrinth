@@ -119,8 +119,12 @@ private:
     std::vector<AABB> m_wallAABBs;
     std::vector<AABB> m_worldWallAABBs;
 
+    uint8_t dimX;
+    uint8_t dimY;
+
+
 public:
-    Maze();
+    Maze(uint8_t dimX, uint8_t dimY);
     inline void AddBox(glm::vec3 min , glm::vec3 max) ;
     void GenerateMesh(float cellSize = 1.0f, float wallThickness = 0.3f, float wallHeight = 0.6f);
     void PrintMaze();
