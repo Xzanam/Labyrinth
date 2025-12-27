@@ -3,14 +3,17 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-Maze::Maze()  : m_maze(10, 10), groundPlane() {
+Maze::Maze(uint8_t dimX, uint8_t dimY )  : m_maze(dimX, dimY), groundPlane(), dimX(dimX), dimY(dimY){
     m_maze.Generate();
     this->GenerateMesh();
     mesh.SetupMesh();
 
-    groundPlane.setModelMatrix(glm::scale(glm::mat4(1.0f), glm::vec3(10.0f, 0.1f, 10.0f)));
-    groundPlane.setColor(Colors::Black);
-    this->setModelMatrix(glm::translate(glm::mat4(1.0f), glm::vec3(-5.0f, 0.0f, -5.0f)));
+    auto transformX = static_cast<float>(dimX);
+    auto transformY = static_cast<float>(dimY);
+
+    groundPlane.setModelMatrix(glm::scale(glm::mat4(1.0f), glm::vec3(transformX, 0.1f,transformY )));
+    groundPlane.setColor(Colors::Green);
+    this->setModelMatrix(glm::translate(glm::mat4(1.0f), glm::vec3(-transformX / 2, 0.0f, -transformY / 2 )));
 
 }
 
@@ -20,7 +23,6 @@ void Maze::OnRender(Core::Shader &shader) const  {
     shader.setMat4("model", this->getModelMatrix());
     shader.setVec3("objectColor", this->getColor());
     mesh.Draw(); 
-
     groundPlane.OnRender(shader);
 }
 

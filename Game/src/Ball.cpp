@@ -4,6 +4,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 
+constexpr glm::vec3 AlongX {1.0f, 0.0f, 0.0f };
+constexpr glm::vec3 AlongZ {0.0f, 0.0f, -1.0f };
+
 Ball::Ball(float r, glm::vec3 pos) : radius(r), position(pos) {
     auto [vertices, indices] = this->GenerateSphere(radius);
     mesh.SetData(vertices, indices);
@@ -18,7 +21,6 @@ void Ball::UpdateModelMatrix() {
 void Ball::OnUpdate(float deltaTime, const std::vector<AABB>& walls) {
     if (position.y > 0.4f)
         position.y -=   9.8f * deltaTime;
-
     for (auto& wall : walls) {
         glm::vec3 normal;
         float penetration;
@@ -43,16 +45,16 @@ void Ball::handleBallMovement(BallMovement movement, float deltaTime) {
     float velocity = ballSpeed * deltaTime ;
     switch (movement) {
         case FORWARD:
-            position += glm::vec3(0.0f, 0.0f, -1.0f) * velocity;
+            position += AlongZ * velocity;
             break;
         case BACKWARD:
-            position -= glm::vec3(0.0f, 0.0f, -1.0f)* velocity;
+            position -= AlongZ * velocity;
             break;
         case LEFT:
-            position -= glm::vec3(1.0f, 0.0f, 0.0f) *velocity;
+            position -= AlongX * velocity;
             break;
         case RIGHT:
-            position += glm::vec3(1.0f, 0.0f, 0.0f)*  velocity;
+            position += AlongX *  velocity;
             break;
         default :
             break;
